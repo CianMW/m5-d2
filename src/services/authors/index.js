@@ -27,9 +27,6 @@ The backend should include the following routes:
 
  
 
-GET /authors => returns the list of authors
-GET /authors/123 => returns a single author
-PUT /authors/123 => edit the author with the given id
 DELETE /authors/123 => delete the author with the given id */
 
 
@@ -50,8 +47,9 @@ authorsRouter.get("/",  (req, res) => {
 //POST /authors => create a new author
 authorsRouter.post("/", (req, res) => {
     console.log(req.body)
+    const avatar = `https://ui-avatars.com/api/?name=${req.body.name}+${req.body.surname}`
   
-    const newAuthor = { ...req.body, createdAt: new Date(), id: uniqid() }
+    const newAuthor = { ...req.body, id: uniqid() , avatar: avatar}
     console.log(newAuthor)
     const authorsRewrite = JSON.parse(fs.readFileSync(authorsJSONPath))
     authorsRewrite.push(newAuthor)
@@ -61,6 +59,43 @@ authorsRouter.post("/", (req, res) => {
     res.status(201).send({ id: newAuthor.id })
   })
 
+  //GET /authors/123 => returns a single author
+  authorsRouter.get("/:id", (req, res) =>{
+
+    const arrayOfAuthors = JSON.parse(fs.readFileSync(authorsJSONPath))
+    const queriedAuthor = arrayOfAuthors.find(author => author.id === req.params.id)
+
+    res.send(queriedAuthor)
+
+  })
+
+  //PUT /authors/123 => edit the author with the given id
+  authorsRouter.put("/:id", (req, res) =>{
+    const authors = JSON.parse(fs.readFileSync(authorsJSONPath))
+
+    const index = authors.findIndex(author => author.id === req.params.id) 
+
+    const editedAuthor = {...authors[index], ...req.body}
+
+    authors[index] = editedAuthor
+
+    fs.writeFileSync(authorsJSONPath, JSON.stringify(authors))
+
+    res.send(editedAuthor)
+
+  })
+// DELETE /authors/123 => delete the author with the given id
+authorsRouter.delete("/:id", (req, res) =>{
+    const authors = JSON.parse(fs.readFileSync(authorsJSONPath))
+    const authorsAfterDeletion = authors.filter(author => author.id !== req.params.id) 
+    console.log("THESE ARE THE AUTHORS AFTER DELETION", authorsAfterDeletion)
+    
+    fs.writeFileSync(authorsJSONPath, JSON.stringify(authorsAfterDeletion))
+
+
+
+    res.status(200).send({response: "deletion complete!"})
+})
 
 
 export default authorsRouter
