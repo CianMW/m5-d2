@@ -1,6 +1,6 @@
-import express from "express" 
+import express from "express"
 import listEndpoints from "express-list-endpoints"
-import authorsRouter from "./services/authors"
+import authorsRouter from "./services/authors/index.js"
 
 const server = express()
 
