@@ -52,11 +52,13 @@ authorsRouter.post("/", (req, res) => {
     const newAuthor = { ...req.body, id: uniqid() , avatar: avatar}
     console.log(newAuthor)
     const authorsRewrite = JSON.parse(fs.readFileSync(authorsJSONPath))
-    authorsRewrite.push(newAuthor)
-  
+    const emailCheck =  authorsRewrite.find(author => author.email === req.body.email)
 
+   if (emailCheck === "undefined"){ authorsRewrite.push(newAuthor)
     fs.writeFileSync(authorsJSONPath, JSON.stringify(authorsRewrite))
-    res.status(201).send({ id: newAuthor.id })
+    res.status(201).send({ id: newAuthor.id }) 
+    } else { (res.status(406).send({response :"invalid : email already exists"}))}
+
   })
 
   //GET /authors/123 => returns a single author
@@ -91,9 +93,6 @@ authorsRouter.delete("/:id", (req, res) =>{
     console.log("THESE ARE THE AUTHORS AFTER DELETION", authorsAfterDeletion)
     
     fs.writeFileSync(authorsJSONPath, JSON.stringify(authorsAfterDeletion))
-
-
-
     res.status(200).send({response: "deletion complete!"})
 })
 
