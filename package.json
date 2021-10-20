@@ -1,8 +1,8 @@
 {
-  "name": "M5-D2",
+  "name": "m5-d2",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -15,6 +15,8 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-list-endpoints": "^6.0.0",
+    "express-validator": "^6.13.0",
+    "http-errors": "^1.8.0",
     "uniqid": "^5.4.0"
   },
   "devDependencies": {
