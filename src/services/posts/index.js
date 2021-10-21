@@ -41,14 +41,18 @@ postsRouter.get("/", (req, res, next) => {
 postsRouter.post("/", postValidationMiddlewares , (req, res, next) => {
     try{
         const errorList = validationResult(req)
+        console.log(errorList)
 
         if(!errorList.isEmpty()){
             next(createHttpError(400, { errorList })) //fires the error response
         } else {
 
             console.log(req.body)
+
+    const name = req.body.author.name.split(" ")
+    req.body.author.avatar = `https://ui-avatars.com/api/?name=${name[0]}+${name[1]}`
   
-    const newPost = { ...req.body, id: uniqid() }
+    const newPost = { ...req.body, id: uniqid(), createdAt: new Date }
     
     writeToFile(newPost)
  
@@ -80,56 +84,65 @@ postsRouter.post("/", postValidationMiddlewares , (req, res, next) => {
 }) */
 
   //GET /authors/123 => returns a single author
-  postsRouter.get("/:id", (req, res) =>{
-
-
-    const arrayOfAuthors = JSON.parse(fs.readFileSync(authorsJSONPath))
-    const queriedAuthor = arrayOfAuthors.find(author => author.id === req.params.id)
-
-    res.send(queriedAuthor)
+  postsRouter.get("/:id", (req, res, next) =>{
     try{
-      const errorList = validationResult(req)
-
-      if(!errorList.isEmpty()){
-          next(createHttpError(400, { errorsList })) //fires the error response
+      console.log(req)
+      const posts  = getPosts()
+      const findPost = posts.find(post => post.id === req.params.id)
+      if(findPost){
+        res.send({findPost})
       } else {
-
-          console.log(req.body)
-          const posts = getPosts
-
-  const newPost = { ...req.body, id: uniqid() }
-  
-  writeToFile(newPost)
-
-  res.send({id: newPost.id})
-  }
-  }catch(error){next(error)}
+        next(createHttpError(404, `post with the id ${req.params.id} doesn't exist` ))
+      }
+    }catch(error){
+      next(error)
+    }
 
   })
 
   //PUT /authors/123 => edit the author with the given id
-  postsRouter.put("/:id", (req, res) =>{
-    const authors = JSON.parse(fs.readFileSync(authorsJSONPath))
+  postsRouter.put("/:id", (req, res, next) =>{
+    try{
+      const posts  = getPosts()
+      const index = posts.findIndex(post => post.id === req.params.id)
+      
+      if(index !== -1){
+        const editedPost = {...posts[index], ...req.body }
 
-    const index = authors.findIndex(author => author.id === req.params.id) 
+      posts[index] = editedPost
 
-    const editedAuthor = {...authors[index], ...req.body}
-
-    authors[index] = editedAuthor
-
-    fs.writeFileSync(authorsJSONPath, JSON.stringify(authors))
-
-    res.send(editedAuthor)
+      writeToFile(posts)
+      res.send(editedPost)
+    }else{
+      next(createHttpError(404, `post with the id ${req.params.id} doesn't exist` ))
+    }
+      
+    }catch(error){
+      next(error)
+    }
 
   })
 // DELETE /authors/123 => delete the author with the given id
-postsRouter.delete("/:id", (req, res) =>{
-    const authors = JSON.parse(fs.readFileSync(authorsJSONPath))
-    const authorsAfterDeletion = authors.filter(author => author.id !== req.params.id) 
-    console.log("THESE ARE THE AUTHORS AFTER DELETION", authorsAfterDeletion)
+postsRouter.delete("/:id", (req, res, next) =>{
+  try{
+    const posts  = getPosts()
+    const foundPost = posts.find(post => post.id === req.params.id)
     
-    fs.writeFileSync(authorsJSONPath, JSON.stringify(authorsAfterDeletion))
-    res.status(200).send({response: "deletion complete!"})
+    if(foundPost){
+      const afterDeletion = posts.filter(post => post.id !== req.params.id)
+      writeToFile(afterDeletion)
+
+      res.status(200).send({response: "deletion complete!"})
+
+
+  }else{
+    next(createHttpError(404, `post with the id ${req.params.id} doesn't exist` ))
+  }
+    
+  }catch(error){
+    next(error)
+  }
+
 })
 
 
