@@ -1,25 +1,15 @@
 import express from "express"
 import uniqid from "uniqid"
-import fs from "fs" 
-import { fileURLToPath } from "url" 
-import { dirname, join } from "path" 
 import { validationResult } from "express-validator"
 import  {postValidationMiddlewares}  from "./validation.js"
 import createHttpError from "http-errors"
+import { writePostsToFile, getPosts } from "../../lib/functions.js"
 
 
 const postsRouter = express.Router()
 
-const currentFilePath = fileURLToPath(import.meta.url) //imports the current file path
-const parentFolder = dirname(currentFilePath)
-const postsJSONPath = join(parentFolder, "posts.json")
 
-const writeToFile = (input) => {fs.writeFileSync(postsJSONPath, JSON.stringify(input))} 
-const getPosts = () => JSON.parse(fs.readFileSync(postsJSONPath))
-
-
-
-postsRouter.get("/", (req, res, next) => {
+postsRouter.get("/", async (req, res, next) => {
     try{
       const errorList = validationResult(req)
 
@@ -30,7 +20,7 @@ postsRouter.get("/", (req, res, next) => {
           console.log(req.body)
 
   
-  const arrayOfPosts = getPosts()
+  const arrayOfPosts = await getPosts()
 
   res.send(arrayOfPosts)
   }
@@ -38,7 +28,7 @@ postsRouter.get("/", (req, res, next) => {
 })
 
 //POST /authors => create a new author
-postsRouter.post("/", postValidationMiddlewares , (req, res, next) => {
+postsRouter.post("/", postValidationMiddlewares , async (req, res, next) => {
     try{
         const errorList = validationResult(req)
         console.log(errorList)
@@ -52,9 +42,11 @@ postsRouter.post("/", postValidationMiddlewares , (req, res, next) => {
     const name = req.body.author.name.split(" ")
     req.body.author.avatar = `https://ui-avatars.com/api/?name=${name[0]}+${name[1]}`
   
-    const newPost = { ...req.body, id: uniqid(), createdAt: new Date }
-    
-    writeToFile(newPost)
+    const newPost = { ...req.body, id: uniqid(), createdAt: new Date}
+    newPost.comments = []
+    const postLibrary = await getPosts()
+    postLibrary.push(newPost)
+    await writePostsToFile(postLibrary)
  
     res.send({id: newPost.id})
     }
@@ -84,10 +76,10 @@ postsRouter.post("/", postValidationMiddlewares , (req, res, next) => {
 }) */
 
   //GET /authors/123 => returns a single author
-  postsRouter.get("/:id", (req, res, next) =>{
+  postsRouter.get("/:id", async (req, res, next) =>{
     try{
       console.log(req)
-      const posts  = getPosts()
+      const posts  = await getPosts()
       const findPost = posts.find(post => post.id === req.params.id)
       if(findPost){
         res.send({findPost})
@@ -101,9 +93,9 @@ postsRouter.post("/", postValidationMiddlewares , (req, res, next) => {
   })
 
   //PUT /authors/123 => edit the author with the given id
-  postsRouter.put("/:id", (req, res, next) =>{
+  postsRouter.put("/:id", async (req, res, next) =>{
     try{
-      const posts  = getPosts()
+      const posts  = await getPosts()
       const index = posts.findIndex(post => post.id === req.params.id)
       
       if(index !== -1){
@@ -111,7 +103,7 @@ postsRouter.post("/", postValidationMiddlewares , (req, res, next) => {
 
       posts[index] = editedPost
 
-      writeToFile(posts)
+      await writePostsToFile(posts)
       res.send(editedPost)
     }else{
       next(createHttpError(404, `post with the id ${req.params.id} doesn't exist` ))
@@ -123,14 +115,14 @@ postsRouter.post("/", postValidationMiddlewares , (req, res, next) => {
 
   })
 // DELETE /authors/123 => delete the author with the given id
-postsRouter.delete("/:id", (req, res, next) =>{
+postsRouter.delete("/:id", async (req, res, next) =>{
   try{
-    const posts  = getPosts()
+    const posts  = await getPosts()
     const foundPost = posts.find(post => post.id === req.params.id)
     
     if(foundPost){
       const afterDeletion = posts.filter(post => post.id !== req.params.id)
-      writeToFile(afterDeletion)
+      await writePostsToFile(afterDeletion)
 
       res.status(200).send({response: "deletion complete!"})
 
@@ -145,6 +137,8 @@ postsRouter.delete("/:id", (req, res, next) =>{
 
 })
 
+// GET /blogPosts/:id/comments, get all the comments for a specific post
+// POST /blogPosts/:id/comments, add a new comment to the specific post
 
 
 

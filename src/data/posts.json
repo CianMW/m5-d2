@@ -1,0 +1,30 @@
+[
+  {
+    "category": "informative",
+    "title": "Generic Rubber Sausages",
+    "cover": "http://placeimg.com/640/480",
+    "readTime": { "value": 2, "unit": "minute" },
+    "author": {
+      "name": "Gustave Schulist",
+      "avatar": "https://ui-avatars.com/api/?name=Gustave+Schulist"
+    },
+    "text": "HTML",
+    "id": "8a3c3q4kv2c1oar",
+    "createdAt": "2021-10-22T12:11:40.227Z",
+    "comments": []
+  },
+  {
+    "text": "<p>Here is some content !!!</p>",
+    "category": "Category5",
+    "title": "Yep this is new",
+    "cover": "http://placeimg.com/640/480",
+    "author": {
+      "name": "Cian Test",
+      "avatar": "https://ui-avatars.com/api/?name=Cian+Test"
+    },
+    "readTime": { "value": 2, "unit": "minute" },
+    "id": "8a3c8pckv2d0l7i",
+    "createdAt": "2021-10-22T12:38:49.181Z",
+    "comments": [{ "author": "cian", "text": "pretty sure this is a comment" }]
+  }
+]
