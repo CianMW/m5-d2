@@ -1,1 +1,58 @@
-[{"name":"Dahlia","surname":"Powlowski","email":"Dante.Zboncak@hotmail.com","date of birth":"Tue Aug 24 2021 01:02:45 GMT+0100 (Irish Standard Time)","id":"8a3cbh0kuyjzdf8","avatar":"https://ui-avatars.com/api/?name=Dahlia+Powlowski"},{"name":"Florine","surname":"Crooks","email":"Jordon4@yahoo.com","date of birth":"Thu Oct 14 2021 20:53:23 GMT+0100 (Irish Standard Time)","id":"8a3cbh0kuyjzdzl","avatar":"https://ui-avatars.com/api/?name=Florine+Crooks"},{"name":"Abbie","surname":"Metz","email":"Keely_Gleason@gmail.com","date of birth":"Wed Feb 03 2021 23:32:38 GMT+0000 (Greenwich Mean Time)","id":"8a3cbh0kuyjzebx","avatar":"https://ui-avatars.com/api/?name=Abbie+Metz"},{"name":"Anita","surname":"Sipes","email":"Dante.Zboncak@hotmail.com","date of birth":"Mon Aug 09 2021 03:17:46 GMT+0100 (Irish Standard Time)","id":"8a3c9j8kuyltl8m","avatar":"https://ui-avatars.com/api/?name=Anita+Sipes"},{"name":"Laurel","surname":"McCullough","email":"Dante.Zboncak@hotmail.com","date of birth":"Sun Feb 28 2021 00:09:43 GMT+0000 (Greenwich Mean Time)","id":"8a3c7jokuylu0qk","avatar":"https://ui-avatars.com/api/?name=Laurel+McCullough"},{"name":"Marjolaine","surname":"Towne","email":"Dante.Zboncak@hotmail.com","date of birth":"Wed Oct 13 2021 12:04:47 GMT+0100 (Irish Standard Time)","id":"8a3c7jokuylu4b4","avatar":"https://ui-avatars.com/api/?name=Marjolaine+Towne"},{"name":"Hillary","surname":"Swaniawski","email":"Dante.Zboncak@hotmail.com","date of birth":"Mon Nov 16 2020 02:19:05 GMT+0000 (Greenwich Mean Time)","id":"8a3c7jokuylu5az","avatar":"https://ui-avatars.com/api/?name=Hillary+Swaniawski"}]
+[
+  {
+    "name": "Dahlia",
+    "surname": "Powlowski",
+    "email": "Dante.Zboncak@hotmail.com",
+    "date of birth": "Tue Aug 24 2021 01:02:45 GMT+0100 (Irish Standard Time)",
+    "id": "8a3cbh0kuyjzdf8",
+    "avatar": "https://ui-avatars.com/api/?name=Dahlia+Powlowski"
+  },
+  {
+    "name": "Florine",
+    "surname": "Crooks",
+    "email": "Jordon4@yahoo.com",
+    "date of birth": "Thu Oct 14 2021 20:53:23 GMT+0100 (Irish Standard Time)",
+    "id": "8a3cbh0kuyjzdzl",
+    "avatar": "https://ui-avatars.com/api/?name=Florine+Crooks"
+  },
+  {
+    "name": "Abbie",
+    "surname": "Metz",
+    "email": "Keely_Gleason@gmail.com",
+    "date of birth": "Wed Feb 03 2021 23:32:38 GMT+0000 (Greenwich Mean Time)",
+    "id": "8a3cbh0kuyjzebx",
+    "avatar": "https://ui-avatars.com/api/?name=Abbie+Metz"
+  },
+  {
+    "name": "Anita",
+    "surname": "Sipes",
+    "email": "Dante.Zboncak@hotmail.com",
+    "date of birth": "Mon Aug 09 2021 03:17:46 GMT+0100 (Irish Standard Time)",
+    "id": "8a3c9j8kuyltl8m",
+    "avatar": "https://ui-avatars.com/api/?name=Anita+Sipes"
+  },
+  {
+    "name": "Laurel",
+    "surname": "McCullough",
+    "email": "Dante.Zboncak@hotmail.com",
+    "date of birth": "Sun Feb 28 2021 00:09:43 GMT+0000 (Greenwich Mean Time)",
+    "id": "8a3c7jokuylu0qk",
+    "avatar": "https://ui-avatars.com/api/?name=Laurel+McCullough"
+  },
+  {
+    "name": "Marjolaine",
+    "surname": "Towne",
+    "email": "Dante.Zboncak@hotmail.com",
+    "date of birth": "Wed Oct 13 2021 12:04:47 GMT+0100 (Irish Standard Time)",
+    "id": "8a3c7jokuylu4b4",
+    "avatar": "https://ui-avatars.com/api/?name=Marjolaine+Towne"
+  },
+  {
+    "name": "Hillary",
+    "surname": "Swaniawski",
+    "email": "Dante.Zboncak@hotmail.com",
+    "date of birth": "Mon Nov 16 2020 02:19:05 GMT+0000 (Greenwich Mean Time)",
+    "id": "8a3c7jokuylu5az",
+    "avatar": "https://ui-avatars.com/api/?name=Hillary+Swaniawski"
+  }
+]

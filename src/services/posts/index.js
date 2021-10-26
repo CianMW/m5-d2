@@ -3,7 +3,7 @@ import uniqid from "uniqid"
 import { validationResult } from "express-validator"
 import  {postValidationMiddlewares}  from "./validation.js"
 import createHttpError from "http-errors"
-import { writePostsToFile, getPosts } from "../../lib/functions.js"
+import { writePostsToFile, getPosts, getComments } from "../../lib/functions.js"
 
 
 const postsRouter = express.Router()
@@ -138,6 +138,38 @@ postsRouter.delete("/:id", async (req, res, next) =>{
 })
 
 // GET /blogPosts/:id/comments, get all the comments for a specific post
+// postsRouter.get("/:id/comments", async (req, res, next) =>{
+//   try{
+//     console.log(req)
+//     const posts  = await getPosts()
+//     const findPost = posts.find(post => post.id === req.params.id)
+//     if(findPost){
+//       res.send({findPost})
+//     } else {
+//       next(createHttpError(404, `post with the id ${req.params.id} doesn't exist` ))
+//     }
+//   }catch(error){
+//     next(error)
+//   }
+
+// })
+
+postsRouter.get("/:id/comments", async (req, res, next) =>{
+  try{
+    console.log(req)
+    const comments  = await getComments()
+    const findComments = comments.filter(comment => comment.article_id === req.params.id)
+    if(findComments){
+      res.send(findComments)
+    } else {
+      next(createHttpError(404, `Reviews with the id ${req.params.id} don't exist` ))
+    }
+  }catch(error){
+    next(error)
+  }
+
+})
+
 // POST /blogPosts/:id/comments, add a new comment to the specific post
 
 

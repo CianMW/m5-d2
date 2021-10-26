@@ -60,7 +60,7 @@ filesRouter.post("/:id/avatar", multer().single("author"), async (req, res, next
         if(index!==-1){
           const postPreEdit = posts[index]
         const editedPost = {...posts[index], author : {...posts[index].author, avatar: `http://localhost:3001/authors/${newFileName}`} }
-    
+    w
          posts[index] = editedPost
     
          await writePostsToFile(posts)
