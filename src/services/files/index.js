@@ -23,9 +23,6 @@ filesRouter.post("/:id/cover", multer({ storage: cloudinaryStorage }).single("co
       if(req.file){
         console.log(req.file)
         console.log("This is the id: ",req.params.id)
-        const identity = JSON.stringify(req.params.id)
-        const newFileName = req.params.id + req.file.originalname
-        await saveCoverImages(newFileName, req.file.buffer)
         const posts  = await getPosts()
         const index = await posts.findIndex(post => post.id === req.params.id)
         let fileLinkDeclaration = ""

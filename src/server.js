@@ -6,19 +6,10 @@ import createHttpError from "http-errors"
 import cors from "cors"
 import {badRequestHandler, unauthorizedHandler, notFoundHandler, genericErrorHandler} from "./errorHandlers.js"
 import filesRouter from "./services/files/index.js"
-import { v2 as cloudinary } from "cloudinary"
-import { CloudinaryStorage } from "multer-storage-cloudinary"
 import { join } from "path"
 const server = express()
 
 
-const cloudStorage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: "strive",
-  },
-})
-const cloudMulter = multer({ storage: cloudStorage })
 //-------------------MIDDLEWARES-----------------
 
     const whitelist = [process.env.FE_LOCAL_URL, process.env.FE_PROD_URL]
