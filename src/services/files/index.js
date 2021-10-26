@@ -2,10 +2,23 @@ import express from "express"
 import createHttpError from "http-errors"
 import multer from "multer"
 import { writePostsToFile, getPosts, saveCoverImages, saveAuthorImages } from "../../lib/functions.js"
+import { v2 as cloudinary } from "cloudinary"
+import { CloudinaryStorage } from "multer-storage-cloudinary"
 const filesRouter = express.Router()
 
+
+
+
+const cloudStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "strive-blog-covers",
+  },
+})
+const cloudMulter = multer({ storage: cloudStorage })
+
 // FOR ADDING COVER PHOTO
-filesRouter.post("/:id/cover", multer().single("cover"), async (req, res, next) => {
+filesRouter.post("/:id/cover", multer({ storage: cloudinaryStorage }).single("cover"), async (req, res, next) => {
   try {
       if(req.file){
         console.log(req.file)
@@ -18,7 +31,7 @@ filesRouter.post("/:id/cover", multer().single("cover"), async (req, res, next) 
         let fileLinkDeclaration = ""
         if(index!==-1){
           const postPreEdit = posts[index]
-        const editedPost = {...posts[index], cover : `http://localhost:3001/covers/${newFileName}` }
+        const editedPost = {...posts[index], cover : `${req.file.path}` }
     
          posts[index] = editedPost
     
@@ -60,7 +73,7 @@ filesRouter.post("/:id/avatar", multer().single("author"), async (req, res, next
         if(index!==-1){
           const postPreEdit = posts[index]
         const editedPost = {...posts[index], author : {...posts[index].author, avatar: `http://localhost:3001/authors/${newFileName}`} }
-    w
+    
          posts[index] = editedPost
     
          await writePostsToFile(posts)
