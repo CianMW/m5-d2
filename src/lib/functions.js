@@ -9,11 +9,13 @@ const dataFolderPath = join(dirname(fileURLToPath(import.meta.url)), "../data") 
 console.log(dataFolderPath)
 const postsJSONPath = join(dataFolderPath, "/posts.json")
 const publicFolderPath = join(process.cwd(), "./public/covers") // process.cwd() gets the address for the root
+const publicFolderPathAuthors = join(process.cwd(), "./public/authors") // process.cwd() gets the address for the root
 
 
 export const writePostsToFile = (input) => {fs.writeJSON(postsJSONPath, input)} 
 export const getPosts = () => fs.readJSON(postsJSONPath)
 export const saveCoverImages = (fileName, contentAsBuffer) => writeFile(join(publicFolderPath, fileName), contentAsBuffer) // writes the picture to the destination
+export const saveAuthorImages = (fileName, contentAsBuffer) => writeFile(join(publicFolderPathAuthors, fileName), contentAsBuffer) // writes the picture to the destination
 
 
 

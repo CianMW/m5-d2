@@ -39,8 +39,8 @@ postsRouter.post("/", postValidationMiddlewares , async (req, res, next) => {
 
             console.log(req.body)
 
-    const name = req.body.author.name.split(" ")
-    req.body.author.avatar = `https://ui-avatars.com/api/?name=${name[0]}+${name[1]}`
+    const name = req.body.author.name
+    req.body.author.avatar = `https://ui-avatars.com/api/?name=${name}`
   
     const newPost = { ...req.body, id: uniqid(), createdAt: new Date}
     newPost.comments = []
