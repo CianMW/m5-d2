@@ -13,7 +13,7 @@ const server = express()
 
 //-------------------MIDDLEWARES-----------------
 
-    const whitelist = [process.env.FE_LOCAL_URL, process.env.FE_PROD_URL]
+    const whitelist = [process.env.FE_LOCAL_URL, process.env.FE_PROD_URL, process.env.BE_CUR_URL]
     const corsOpts = {
       origin: function (origin, next) {
         // Since CORS is a global middleware, it is going to be executed for each and every request --> we are able to "detect" the origin of each and every req from this function
