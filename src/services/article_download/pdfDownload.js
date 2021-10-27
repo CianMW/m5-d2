@@ -3,21 +3,23 @@ import uniqid from "uniqid"
 import { validationResult } from "express-validator"
 import createHttpError from "http-errors"
 import { writePostsToFile, getPosts, getComments, writeCommentsToFile } from "../../lib/functions.js"
-import PdfPrinter from "pdfmake"
-//  PdfPrinter = require('pdfmake');
-// var printer = new PdfPrinter(fonts);
-// var fs = require('fs');
+import pdfMake from "pdfmake/build/pdfmake.js";
+// import pdfFonts from "pdfmake/build/vfs_fonts.js";
+ import PdfPrinter from "pdfmake"
+ import { pipeline } from "stream"
 
 
 //FUNCTION TO DOWNLOAD THE PDF
 const getPDFStream = content => {
+
+  //pdfMake.vfs = pdfFonts.pdfMake.vfs
     //SETS THE FONT
 const fonts = {
-  'Roboto': {
-    normal: 'Roboto-Regular.ttf',
-    bold: 'Roboto-Medium.ttf',
-    italics: 'Roboto-Italic.ttf',
-    bolditalics: 'Roboto-Italic.ttf'
+  'Helvetica': {
+    normal: 'Helvetica',
+    bold: 'Helvetica-bold',
+    // italics: 'Roboto-Italic.ttf',
+    // bolditalics: 'Roboto-Italic.ttf'
   }
 };
 const printer = new PdfPrinter(fonts)
@@ -25,7 +27,7 @@ const printer = new PdfPrinter(fonts)
 const docDefinition = {
     content: [content, "END OF THE PDF"],
     defaultStyle: {
-      font: "Roboto-Regular.ttf",
+      font: "Helvetica",
     },
     // ...
   }
