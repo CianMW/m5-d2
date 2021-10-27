@@ -54,7 +54,7 @@ pdfRouter.get("/:id", async (req, res, next) =>{
         const findPost = posts.find(post => post.id === req.params.id)
         if(findPost) {
 
-        res.setHeader("Content-Disposition", `attachment: filename = ${blog.title}.pdf`) 
+        res.setHeader("Content-Disposition", `attachment: filename = ${findPost.title}.pdf`) 
         const source = getPDFStream(findPost.text) // PDF READABLE STREAM
         const destination = res
 
