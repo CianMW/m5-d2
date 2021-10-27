@@ -3,7 +3,7 @@ import uniqid from "uniqid"
 import { validationResult } from "express-validator"
 import  {postValidationMiddlewares}  from "./validation.js"
 import createHttpError from "http-errors"
-import { writePostsToFile, getPosts, getComments } from "../../lib/functions.js"
+import { writePostsToFile, getPosts, getComments, writeCommentsToFile } from "../../lib/functions.js"
 
 
 const postsRouter = express.Router()
@@ -171,6 +171,47 @@ postsRouter.get("/:id/comments", async (req, res, next) =>{
 })
 
 // POST /blogPosts/:id/comments, add a new comment to the specific post
+
+postsRouter.post("/:id/comments", async (req, res, next) =>{
+  try{
+    console.log(req)
+    const newComment = {...req.body, _id : uniqid() , article_id : req.params.id, createdAt : new Date}
+    const allComments = getComments()
+    allComments.push(newComment)
+    writeCommentsToFile(allComments)
+    if(req){
+      res.send(newComment)
+    } else {
+      next(createHttpError(404, `comment could not be created ` ))
+    }
+  }catch(error){
+    next(error)
+  }
+
+})
+
+// deletes comments 
+
+postsRouter.delete("/:id/comments", async (req, res, next) =>{
+  try{
+    const allComments  = await getComments()
+    const foundComment = allComments.find(comment => comment._id === req.params.id)
+    
+    if(foundComment){
+      const afterDeletion = allComments.filter(comment => comment._id !== req.params.id)
+      await writeCommentsToFile(afterDeletion)
+
+      res.status(200).send({response: "deletion complete!"})
+
+
+  }else{
+    next(createHttpError(404, `Comment with id ${req.params.id} doesn't exist` ))
+  }
+    
+  }catch(error){
+    next(error)
+  }
+})
 
 
 

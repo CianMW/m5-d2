@@ -14,6 +14,7 @@ const publicFolderPathAuthors = join(process.cwd(), "./public/authors") // proce
 
 
 export const writePostsToFile = (input) => {fs.writeJSON(postsJSONPath, input)} 
+export const writeCommentsToFile = (input) => {fs.writeJSON(commentsJSONPath, input)} 
 export const getPosts = () => fs.readJSON(postsJSONPath)
 export const getComments = () => fs.readJSON(commentsJSONPath)
 export const saveCoverImages = (fileName, contentAsBuffer) => writeFile(join(publicFolderPath, fileName), contentAsBuffer) // writes the picture to the destination
