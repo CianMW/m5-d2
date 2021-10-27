@@ -6,6 +6,7 @@ import createHttpError from "http-errors"
 import cors from "cors"
 import {badRequestHandler, unauthorizedHandler, notFoundHandler, genericErrorHandler} from "./errorHandlers.js"
 import filesRouter from "./services/files/index.js"
+import pdfRouter from "./services/article_download/pdfDownload.js"
 import { join } from "path"
 const server = express()
 
@@ -40,6 +41,7 @@ server.use(express.static(publicFolderPath))
 server.use("/authors", authorsRouter) 
 server.use("/posts", postsRouter) 
 server.use("/files", filesRouter) 
+server.use("/pdf", pdfRouter) 
 
 
 

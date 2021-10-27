@@ -175,10 +175,10 @@ postsRouter.get("/:id/comments", async (req, res, next) =>{
 postsRouter.post("/:id/comments", async (req, res, next) =>{
   try{
     console.log(req)
-    const newComment = {...req.body, _id : uniqid() , article_id : req.params.id, createdAt : new Date}
+    const newComment = {...req.body, _id : uniqid() , createdAt : new Date}
     const allComments = getComments()
     allComments.push(newComment)
-    writeCommentsToFile(allComments)
+   await writeCommentsToFile(allComments)
     if(req){
       res.send(newComment)
     } else {
