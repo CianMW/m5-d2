@@ -9,13 +9,13 @@ const filesRouter = express.Router()
 
 
 
-const cloudStorage = new CloudinaryStorage({
-  cloudinary: cloudinary,
+const cloudinaryStorage = new CloudinaryStorage({
+  cloudinary,
   params: {
     folder: "strive-blog-covers",
   },
 })
-const cloudMulter = multer({ storage: cloudStorage })
+//const cloudMulter = multer({ storage: cloudinaryStorage })
 
 // FOR ADDING COVER PHOTO
 filesRouter.post("/:id/cover", multer({ storage: cloudinaryStorage }).single("cover"), async (req, res, next) => {
