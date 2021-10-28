@@ -12,11 +12,11 @@ import pdfMake from "pdfmake/build/pdfmake.js";
  //pdfMake.vfs = pdfFonts.pdfMake.vfs
 //SETS THE FONT
       const fonts = {
-        'Helvetica': {
-          normal: 'Helvetica',
-          bold: 'Helvetica-bold',
-// italics: 'Roboto-Italic.ttf',
-// bolditalics: 'Roboto-Italic.ttf'
+        Times: {
+          normal: 'Times-Roman',
+          bold: 'Times-Bold',
+          italics: 'Times-Italic',
+          bolditalics: 'Times-BoldItalic'
         }
       };
 
