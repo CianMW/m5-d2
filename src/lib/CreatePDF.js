@@ -3,6 +3,9 @@ import pdfMake from "pdfmake/build/pdfmake.js";
  import PdfPrinter from "pdfmake"
  import { pipeline } from "stream"
  import striptags from "striptags";
+ import fetch from "node-fetch";
+ import imageToBase64 from "image-to-base64";
+ import axios from "axios";
 
 
 
@@ -19,9 +22,12 @@ import pdfMake from "pdfmake/build/pdfmake.js";
 
 //FUNCTION TO DOWNLOAD THE PDF
 export const getPDFStream = async (blog) => {
-    let imagePart = {};
-    if (blog.cover) {
-    const response = await fetch(blog.cover, {
+  
+  //CL for error checking 
+  console.log(blog)
+  let imagePart = {};
+  if (blog.cover) {
+    const response = await axios.get(blog.cover, {
       responseType: "arraybuffer",
     });
     const blogCoverURLParts = blog.cover.split("/");
@@ -32,12 +38,37 @@ export const getPDFStream = async (blog) => {
     imagePart = { image: base64Image, width: 500, margin: [0, 0, 0, 40] };
   }
 
+  //COULDN'T GET THE CODE BELOW TO WORK, REWORKED MANY TIMES
+
+   /*  let imagePart = {};
+    if (blog.cover) {
+    const response = await fetch(blog.cover, {
+      responseType: "arraybuffer",
+    });
+    await console.log(response)
+    const arrayBuff = response.arrayBuffer()
+    const base64 = await imageToBase64(arrayBuff) 
+    const blogCoverURLParts = blog.cover.split("/");
+    const fileName = blogCoverURLParts[blogCoverURLParts.length - 1];
+    console.log("Here's the file name", fileName)
+    const [id, extension] = fileName.split(".");
+   // const base64 = response.data.toString("base64");
+    const base64Image = `data:image/${extension};base64,${base64}`;
+    imagePart = { image: base64Image, width: 500, margin: [0, 0, 0, 40] };
+  } */
+
   const printer = new PdfPrinter(fonts)
   
   const docDefinition = {
       content: [
           imagePart, 
-      { text: striptags(blog.content), lineHeight: 2 },],
+      { text: striptags(blog.text), fontSize: 20, bold: true, margin: [0, 0, 0, 40] },
+      { text: striptags(blog.text), lineHeight: 2 },
+      { text: striptags(blog.text), lineHeight: 2 },
+      { text: striptags(blog.text), lineHeight: 2 },
+      { text: striptags(blog.text), lineHeight: 2 },
+      { text: blog.text, fontSize: 20, bold: true, margin: [0, 0, 0, 40] },
+    ],
       defaultStyle: {
         font: "Helvetica",
       },

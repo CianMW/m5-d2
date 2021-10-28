@@ -1,1 +1,16 @@
-[{"text":"<p>sdfsdfsdf</p>","category":"Category4","title":"sdfsdf","cover":"http://localhost:3001/covers/8a3c9cckv7tsfeemanager.jpg","author":{"name":"sdfsf","avatar":"http://localhost:3001/authors/8a3c9cckv7tsfeeavatar-icon-images-4.jpg"},"readTime":{"value":2,"unit":"minute"},"id":"8a3c9cckv7tsfee","createdAt":"2021-10-26T08:27:12.758Z","comments":[]}]
+[
+  {
+    "text": "<p>sdfsdfsdf</p>",
+    "category": "Category4",
+    "title": "sdfsdf",
+    "cover": "https://res.cloudinary.com/ciano/image/upload/v1635383423/strive-blog-covers/m1zopurepi4qeudmtv6z.jpg",
+    "author": {
+      "name": "sdfsf",
+      "avatar": "http://localhost:3001/authors/8a3c9cckv7tsfeeavatar-icon-images-4.jpg"
+    },
+    "readTime": { "value": 2, "unit": "minute" },
+    "id": "8a3c9cckv7tsfee",
+    "createdAt": "2021-10-26T08:27:12.758Z",
+    "comments": []
+  }
+]
