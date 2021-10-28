@@ -52,7 +52,7 @@ server.use(unauthorizedHandler)
 server.use(notFoundHandler)
 server.use(genericErrorHandler)
 
-const port = 3050 //process.env.PORT
+const port = process.env.PORT
 
 console.table(listEndpoints(server))
 
