@@ -39,7 +39,7 @@ const docDefinition = {
   const pdfReadableStream = printer.createPdfKitDocument(docDefinition, options)
   // pdfReadableStream.pipe(fs.createWriteStream('document.pdf')); // old syntax for piping
   // pipeline(pdfReadableStream, fs.createWriteStream('document.pdf')) // new syntax for piping (we don't want to pipe pdf into file on disk right now)
-  //pdfReadableStream.end()
+  pdfReadableStream.end()
   return pdfReadableStream
 
 
@@ -55,7 +55,7 @@ pdfRouter.get("/:id", async (req, res, next) =>{
         const posts = await getPosts()
         const findPost = posts.find(post => post.id === req.params.id)
         if(findPost) {
-        //res.setHeader("Content-Type", "application/pdf");
+        res.setHeader("Content-Type", "application/pdf");
         res.setHeader("Content-Disposition", `attachment: filename = ${findPost.title}.pdf`) 
         const source = getPDFStream(findPost.text) // PDF READABLE STREAM
         const destination = res
