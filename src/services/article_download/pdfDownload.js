@@ -64,7 +64,7 @@ pdfRouter.get("/:id", async (req, res, next) =>{
             if (err) next(err)
           })
         
-          pdfReadableStream.end()
+         pipeline.end()
         }else {
         next(createHttpError(404, `post with the id ${req.params.id} doesn't exist and cannot be downloaded` ))
       }
