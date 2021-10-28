@@ -70,7 +70,7 @@ export const getPDFStream = async (blog) => {
       { text: blog.text, fontSize: 20, bold: true, margin: [0, 0, 0, 40] },
     ],
       defaultStyle: {
-        font: "Helvetica",
+        font: "Times",
       },
       // ...
     }
