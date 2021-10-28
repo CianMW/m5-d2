@@ -60,7 +60,7 @@ pdfRouter.get("/:id", async (req, res, next) =>{
         const source = getPDFStream(findPost.text) // PDF READABLE STREAM
         const destination = res
 
-       await pipeline(source, destination, err => {
+        pipeline(source, destination, err => {
             if (err) next(err)
           })
         
