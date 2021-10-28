@@ -7,43 +7,44 @@ import pdfMake from "pdfmake/build/pdfmake.js";
 // import pdfFonts from "pdfmake/build/vfs_fonts.js";
  import PdfPrinter from "pdfmake"
  import { pipeline } from "stream"
+ import { getPDFStream } from "../../lib/CreatePDF.js"
 
 
-//FUNCTION TO DOWNLOAD THE PDF
-const getPDFStream = content => {
+// //FUNCTION TO DOWNLOAD THE PDF
+// const getPDFStream = content => {
 
-  //pdfMake.vfs = pdfFonts.pdfMake.vfs
-    //SETS THE FONT
-const fonts = {
-  'Helvetica': {
-    normal: 'Helvetica',
-    bold: 'Helvetica-bold',
-    // italics: 'Roboto-Italic.ttf',
-    // bolditalics: 'Roboto-Italic.ttf'
-  }
-};
-const printer = new PdfPrinter(fonts)
+//   //pdfMake.vfs = pdfFonts.pdfMake.vfs
+//     //SETS THE FONT
+// const fonts = {
+//   'Helvetica': {
+//     normal: 'Helvetica',
+//     bold: 'Helvetica-bold',
+//     // italics: 'Roboto-Italic.ttf',
+//     // bolditalics: 'Roboto-Italic.ttf'
+//   }
+// };
+// const printer = new PdfPrinter(fonts)
 
-const docDefinition = {
-    content: [content, "END OF THE PDF"],
-    defaultStyle: {
-      font: "Helvetica",
-    },
-    // ...
-  }
+// const docDefinition = {
+//     content: [content, "END OF THE PDF"],
+//     defaultStyle: {
+//       font: "Helvetica",
+//     },
+//     // ...
+//   }
 
-  const options = {
-    // ...
-  }
+//   const options = {
+//     // ...
+//   }
 
-  const pdfReadableStream = printer.createPdfKitDocument(docDefinition, options)
-  // pdfReadableStream.pipe(fs.createWriteStream('document.pdf')); // old syntax for piping
-  // pipeline(pdfReadableStream, fs.createWriteStream('document.pdf')) // new syntax for piping (we don't want to pipe pdf into file on disk right now)
-  pdfReadableStream.end()
-  return pdfReadableStream
+//   const pdfReadableStream = printer.createPdfKitDocument(docDefinition, options)
+//   // pdfReadableStream.pipe(fs.createWriteStream('document.pdf')); // old syntax for piping
+//   // pipeline(pdfReadableStream, fs.createWriteStream('document.pdf')) // new syntax for piping (we don't want to pipe pdf into file on disk right now)
+//   pdfReadableStream.end()
+//   return pdfReadableStream
 
 
-} // END OF PDF STREAM FUNCTION
+// } // END OF PDF STREAM FUNCTION
 
 
 
