@@ -15,6 +15,14 @@ const cloudinaryStorage = new CloudinaryStorage({
     folder: "strive-blog-covers",
   },
 })
+
+
+const cloudinaryStorageAvatar = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "strive-blog-avatars",
+  },
+})
 //const cloudMulter = multer({ storage: cloudinaryStorage })
 
 // FOR ADDING COVER PHOTO
@@ -55,22 +63,21 @@ filesRouter.post("/:id/cover", multer({ storage: cloudinaryStorage }).single("co
 })
 
 
-// FOR ADDING AUTHOR AVATAR
-filesRouter.post("/:id/avatar", multer().single("author"), async (req, res, next) => {
+
+
+//FOR ADDING AUTHOR AVATAR
+filesRouter.post("/:id/cover", multer({ storage: cloudinaryStorageAvatar }).single("cover"), async (req, res, next) => {
   try {
       if(req.file){
         console.log(req.file)
         console.log("This is the id: ",req.params.id)
-        const identity = JSON.stringify(req.params.id)
-        const newFileName = req.params.id + req.file.originalname
-        await saveAuthorImages(newFileName, req.file.buffer)
         const posts  = await getPosts()
         const index = await posts.findIndex(post => post.id === req.params.id)
         let fileLinkDeclaration = ""
         if(index!==-1){
           const postPreEdit = posts[index]
-        const editedPost = {...posts[index], author : {...posts[index].author, avatar: `http://localhost:3001/authors/${newFileName}`} }
-    
+
+        const editedPost = {...posts[index], author : {...posts[index].author, avatar: `${req.file.path}` }}
          posts[index] = editedPost
     
          await writePostsToFile(posts)

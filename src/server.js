@@ -6,13 +6,12 @@ import createHttpError from "http-errors"
 import cors from "cors"
 import {badRequestHandler, unauthorizedHandler, notFoundHandler, genericErrorHandler} from "./errorHandlers.js"
 import filesRouter from "./services/files/index.js"
-import pdfRouter from "./services/article_download/pdfDownload.js"
 import { join } from "path"
 const server = express()
 
 
 //-------------------MIDDLEWARES-----------------
-
+/* 
     const whitelist = [process.env.FE_LOCAL_URL, process.env.FE_PROD_URL, process.env.BE_CUR_URL]
     const corsOpts = {
       origin: function (origin, next) {
@@ -28,9 +27,9 @@ const server = express()
       },
     }
 
-    server.use(cors(corsOpts)) // You need this if you want to make the FE communicate with BE
+    server.use(cors(corsOpts)) // You need this if you want to make the FE communicate with BE */
 
-
+server.use(cors("*"))
   
 server.use(express.json())
 
@@ -41,7 +40,6 @@ server.use(express.static(publicFolderPath))
 server.use("/authors", authorsRouter) 
 server.use("/posts", postsRouter) 
 server.use("/files", filesRouter) 
-server.use("/pdf", pdfRouter) 
 
 
 
@@ -52,7 +50,7 @@ server.use(unauthorizedHandler)
 server.use(notFoundHandler)
 server.use(genericErrorHandler)
 
-const port = process.env.PORT
+const port = 3050 //process.env.PORT
 
 console.table(listEndpoints(server))
 

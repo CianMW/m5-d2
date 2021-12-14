@@ -3,7 +3,9 @@ import uniqid from "uniqid"
 import { validationResult } from "express-validator"
 import  {postValidationMiddlewares}  from "./validation.js"
 import createHttpError from "http-errors"
-import { writePostsToFile, getPosts, getComments, writeCommentsToFile } from "../../lib/functions.js"
+import { writePostsToFile, getPosts, getComments, writeCommentsToFile, getAuthors, sendEmailVerification } from "../../lib/functions.js"
+import { pipeline } from "stream"
+import { getPDFStream } from "../../lib/CreatePDF.js"
 
 
 const postsRouter = express.Router()
@@ -47,6 +49,12 @@ postsRouter.post("/", postValidationMiddlewares , async (req, res, next) => {
     const postLibrary = await getPosts()
     postLibrary.push(newPost)
     await writePostsToFile(postLibrary)
+
+    const authors = await getAuthors()
+    const selectedAuthor = authors.filter(author => author.name === name)
+    console.log("The selected author is ", selectedAuthor)
+    await sendEmailVerification(selectedAuthor)
+
  
     res.send({id: newPost.id})
     }
@@ -213,6 +221,42 @@ postsRouter.delete("/:id/comments", async (req, res, next) =>{
   }
 })
 
+postsRouter.get("/:id/pdf", async (req, res, next) =>{
+  try{
+      const posts = await getPosts()
+      const findPost = posts.find(post => post.id === req.params.id)
+      if(findPost) {
+      res.setHeader("Content-Type", "application/pdf");
+      res.setHeader("Content-Disposition", `attachment: filename = ${findPost.title}.pdf`) 
+      const source = await getPDFStream(findPost) // PDF READABLE STREAM
+      const destination = res
+
+      pipeline(source, destination, err => {
+          if (err) next(err)
+        })
+      
+      }else {
+      next(createHttpError(404, `post with the id ${req.params.id} doesn't exist and cannot be downloaded` ))
+    }
+
+     
+  }catch(error){
+      next(error)
+  }
+  // try{
+  //   console.log(req)
+  //   const posts  = await getPosts()
+  //   const findPost = posts.find(post => post.id === req.params.id)
+  //   if(findPost){
+  //     res.send({findPost})
+  //   } else {
+  //     next(createHttpError(404, `post with the id ${req.params.id} doesn't exist` ))
+  //   }
+  // }catch(error){
+  //   next(error)
+  // }
+
+})
 
 
 export default postsRouter
